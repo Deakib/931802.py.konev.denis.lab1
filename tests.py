@@ -19,7 +19,7 @@ print('\t\t\tPOST REQUESTS')
 
 print('\t3rd task:')
 #with tz
-data = {'type': 'time', 'tz_start': tz_for_url}
+data = {'type': 'time', 'tz': tz_for_url}
 print('Time in ' + tz_for_url + ' is ' + requests.post(url = url, data = json.dumps(data)).text)
 #without tz
 data = {'type': 'time'}
@@ -28,7 +28,7 @@ print()
 
 print('\t4th task:')
 #with tz
-data = {'type': 'date', 'tz_start': tz_for_url}
+data = {'type': 'date', 'tz1': tz_for_url}
 print('Date in ' + tz_for_url + ' is ' + requests.post(url = url, data = json.dumps(data)).text)
 #without tz
 data = {'type': 'date'}
@@ -40,13 +40,13 @@ print('\t5th task:')
 data = {'type': 'datediff'}
 print('1. Difference between time zones is ' + requests.post(url = url, data = json.dumps(data)).text)
 #only start time zone
-data = {'type': 'datediff', 'tz_start': tz_for_url}
+data = {'type': 'datediff', 'tz1': tz_for_url}
 print('2. Difference between time zones is ' + requests.post(url = url, data = json.dumps(data)).text)
 #only end time zone
-data = {'type': 'datediff', 'tz_end': tz_for_url}
+data = {'type': 'datediff', 'tz1': tz_for_url}
 print('3. Difference between time zones is ' + requests.post(url = url, data = json.dumps(data)).text)
 #both time zones
-data = {'type': 'datediff', 'tz_start': tz_for_url, 'tz_end': 'America/Los_Angeles'}
+data = {'type': 'datediff', 'tz1': tz_for_url, 'tz2': 'America/Los_Angeles'}
 print('4. Difference between time zones is ' + requests.post(url = url, data = json.dumps(data)).text)
-data = {'type': 'datediff', 'tz_start': 'Canada/Central', 'tz_end': 'Australia/Tasmania'}
+data = {'type': 'datediff', 'tz1': 'Canada/Central', 'tz2': 'Australia/Tasmania'}
 print('5. Difference between time zones is ' + requests.post(url = url, data = json.dumps(data)).text)

@@ -32,39 +32,39 @@ def application(environ, start_response):
         request_body_str = json.loads(request_body_str)
         m_type = request_body_str['type']
         try:
-            start = request_body_str['tz_start']
+            tz1 = request_body_str['tz1']
         except KeyError:
-            start = None
-        if start is None:
-            start = get_localzone()
+            tz1 = None
+        if tz1 is None:
+            tz1 = get_localzone()
         else:
-            start = timezone(start)
-        str_start = str(start)
+            tz1 = timezone(tz1)
+        str_tz1 = str(tz1)
         try:
-            end = request_body_str['tz_end']
+            tz2 = request_body_str['tz2']
         except KeyError:
-            end = None
-        if end is None:
-            end = get_localzone()
+            tz2 = None
+        if tz2 is None:
+            tz2 = get_localzone()
         else:
-            end = timezone(end)
-        str_end = str(end)
+            tz2 = timezone(tz2)
+        str_tz2 = str(tz2)
         if m_type == 'date':
             start_response(status, response_headers)
-            return [bytes(json.dumps({'date': datetime.now(tz = start).strftime('%d/%m/%Y'), 'tz': str_start})
+            return [bytes(json.dumps({'date': datetime.now(tz = tz1).strftime('%d/%m/%Y'), 'tz': str_tz1})
                           , encoding='utf-8')]
         elif m_type == 'time':
             start_response(status, response_headers)
-            return [bytes(json.dumps({'time': datetime.now(tz = start).strftime('%H:%M:%S'), 'tz': str_start})
+            return [bytes(json.dumps({'time': datetime.now(tz = tz1).strftime('%H:%M:%S'), 'tz': str_tz1})
                           , encoding='utf-8')]
         elif m_type == 'datediff':
-            date_start = datetime.now(tz = start).tzinfo.localize(datetime.now())
-            date_end = datetime.now(tz = end).tzinfo.localize(datetime.now())
+            date_start = datetime.now(tz = tz1).tzinfo.localize(datetime.now())
+            date_end = datetime.now(tz = tz2).tzinfo.localize(datetime.now())
             if date_start <= date_end:
                 delta = str(date_end - date_start)
             else:
                 delta = '-' + str(date_start - date_end)
         start_response(status, response_headers)
-        return [bytes(json.dumps({'diff': delta, 'tz_start': str_start, 'tz_end': str_end}), encoding = 'utf-8')]
+        return [bytes(json.dumps({'diff': delta, 'tz1': str_tz1, 'tz2': str_tz2}), encoding = 'utf-8')]
 
 serve(application)
